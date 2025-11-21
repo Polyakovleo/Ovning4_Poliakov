@@ -60,24 +60,116 @@ namespace SkalProj_Datastrukturer_Minne
         /// <summary>
         /// Examines the datastructure List
         /// </summary>
-        static void ExamineList()
-        {
+        public static void ExamineList()
+        { 
+        /*
+         * Loop this method untill the user inputs something to exit to main menue.
+         * Create a switch statement with cases '+' and '-'
+         * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
+         * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
+         * In both cases, look at the count and capacity of the list
+         * As a default case, tell them to use only + or -
+         * Below you can see some inspirational code to begin working.
+        */
+
+        //List<string> theList = new List<string>();
+        //string input = Console.ReadLine();
+        //char nav = input[0];
+        //string value = input.substring(1);
+
+        //switch(nav){...}
+
+        /* 
+         * 1. Skriv klart implementationen av ExamineList-metoden så att undersökningen blir genomförbar.
+        */
+
+            List<string> theList = new List<string>();
+
+            while (true)
+            {
+                Console.Write("Input (+Name / -Name / exit): ");
+                string input = Console.ReadLine();
+
+                if (input == null)
+                    continue;
+
+                if (input.ToLower() == "exit")
+                    break;
+
+                if (input.Length < 2)
+                {
+                    Console.WriteLine("Please use +Name or -Name");
+                    continue;
+                }
+
+                char nav = input[0];        // + or -
+                string value = input.Substring(1);   // name
+
+                switch (nav)
+                {
+                    case '+':
+                        theList.Add(value);
+                        Console.WriteLine($"Added \"{value}\"");
+                        Console.WriteLine($"Count = {theList.Count}, Capacity = {theList.Capacity}");
+                        break;
+
+                    case '-':
+                        if (theList.Remove(value))
+                        {
+                            Console.WriteLine($"Removed \"{value}\"");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"\"{value}\" not found");
+                        }
+                        Console.WriteLine($"Count = {theList.Count}, Capacity = {theList.Capacity}");
+                        break;
+
+                    default:
+                        Console.WriteLine("Use only + or -");
+                        break;
+                }
+            }
+       
+
+            //
             /*
-             * Loop this method untill the user inputs something to exit to main menue.
-             * Create a switch statement with cases '+' and '-'
-             * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-             * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
-             * In both cases, look at the count and capacity of the list
-             * As a default case, tell them to use only + or -
-             * Below you can see some inspirational code to begin working.
-            */
+             * 2. När ökar listans kapacitet? (Alltså den underliggande arrayens storlek)
+             * 
+             * Capacity ökar bara när du lägger till ett nytt element och Count blir större än den aktuella kapaciteten.
+             * Sedan skapar List en ny, större intern array och kopierar elementen till den.
+             * 
+             * 3. Med hur mycket ökar kapaciteten?
+             * 
+             * Först, Capacity = 0 sedan 4, 8, 16, 32, 64, …
+             * 
+             * 4. Varför ökar inte listans kapacitet i samma takt som element läggs till?
+             * 
+             * Om varje Add-operation utökade listan med exakt ett element, då:
+             * Varje Add → allokera en ny array + kopiera alla element
+             * Detta skulle vara mycket långsamt och minneskrävande
+             * 
+             * Så de gör det på följande sätt:
+             * de gör ett "stort hopp" i storlek
+             * Detta gör att många efterföljande Add-operationer kan utföras utan att omallokera minne
+             * Detta uppnår amorterad O(1)-komplexitet för addition.
+             * 
+             * 5. Minskar kapaciteten när element tas bort ur listan?
+             * 
+             * Nej, det minskar inte automatiskt.
+             * Count    minskar, men Capacity förblir densamma.
+             * Men du kan använda list.TrimExcess(), eller explicit ange list.Capacity = list.Count;
+             * 
+             * 6. När är det då fördelaktigt att använda en egendefinierad array istället för en lista?
+             * 
+             * Storleken är känd i förväg och inte ändras
+             * Prestanda/minne är avgörande
+             * Arrayen har något mindre minne
+             * Det inte finns någon onödig logik för kapacitetsutbyggnad
+             * En flerdimensionell array eller speciell indexåtkomst behövs
+             * Du arbetar med en stor mängd data.
+             */
 
-            //List<string> theList = new List<string>();
-            //string input = Console.ReadLine();
-            //char nav = input[0];
-            //string value = input.substring(1);
-
-            //switch(nav){...}
         }
 
         /// <summary>
