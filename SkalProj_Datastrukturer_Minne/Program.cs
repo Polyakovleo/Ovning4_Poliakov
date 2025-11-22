@@ -61,27 +61,27 @@ namespace SkalProj_Datastrukturer_Minne
         /// Examines the datastructure List
         /// </summary>
         public static void ExamineList()
-        { 
-        /*
-         * Loop this method untill the user inputs something to exit to main menue.
-         * Create a switch statement with cases '+' and '-'
-         * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-         * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
-         * In both cases, look at the count and capacity of the list
-         * As a default case, tell them to use only + or -
-         * Below you can see some inspirational code to begin working.
-        */
+        {
+            /*
+             * Loop this method untill the user inputs something to exit to main menue.
+             * Create a switch statement with cases '+' and '-'
+             * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
+             * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
+             * In both cases, look at the count and capacity of the list
+             * As a default case, tell them to use only + or -
+             * Below you can see some inspirational code to begin working.
+            */
 
-        //List<string> theList = new List<string>();
-        //string input = Console.ReadLine();
-        //char nav = input[0];
-        //string value = input.substring(1);
+            //List<string> theList = new List<string>();
+            //string input = Console.ReadLine();
+            //char nav = input[0];
+            //string value = input.substring(1);
 
-        //switch(nav){...}
+            //switch(nav){...}
 
-        /* 
-         * 1. Skriv klart implementationen av ExamineList-metoden så att undersökningen blir genomförbar.
-        */
+            /* 
+             * 1. Skriv klart implementationen av ExamineList-metoden så att undersökningen blir genomförbar.
+            */
 
             List<string> theList = new List<string>();
 
@@ -94,8 +94,10 @@ namespace SkalProj_Datastrukturer_Minne
                     continue;
 
                 if (input.ToLower() == "exit")
+                {
+                    Console.Clear();
                     break;
-
+                }
                 if (input.Length < 2)
                 {
                     Console.WriteLine("Please use +Name or -Name");
@@ -130,7 +132,7 @@ namespace SkalProj_Datastrukturer_Minne
                         break;
                 }
             }
-       
+
 
             //
             /*
@@ -182,6 +184,58 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to enqueue items or dequeue items
              * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
             */
+
+            Queue<string> queue = new Queue<string>();
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                Console.WriteLine("\n--- Queue Simulation ---");
+                Console.WriteLine("Type '+name' to enqueue");
+                Console.WriteLine("Type '-' to dequeue");
+                Console.WriteLine("Type 'exit' to return to the main menu");
+                Console.WriteLine("Current queue: " + (queue.Count > 0 ? string.Join(", ", queue) : "(Empty)"));
+                Console.Write("Input: ");
+
+                string input = Console.ReadLine()?.Trim() ?? "";
+
+                switch (input)
+                {
+                    case string s when s.StartsWith("+"):
+                        string name = s.Substring(1).Trim();
+                        if (name.Length > 0)
+                        {
+                            queue.Enqueue(name);
+                            Console.WriteLine($"{name} was put in the queue.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You must write a name after '+'.");
+                        }
+                        break;
+
+                    case "-":
+                        if (queue.Count > 0)
+                        {
+                            string removed = queue.Dequeue();
+                            Console.WriteLine($"{removed} was removed from the queue.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The queue is empty.");
+                        }
+                        break;
+
+                    case "exit":
+                        isRunning = false;
+                        Console.Clear();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid input, please try again.");
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -194,6 +248,53 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to push or pop items
              * Make sure to look at the stack after pushing and and poping to see how it behaves
             */
+            Stack<string> stack = new Stack<string>();
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                Console.WriteLine("\n--- Stack-simulering ---");
+                Console.WriteLine("Type 'push' to add a value to the stack");
+                Console.WriteLine("Type 'pop' to remove the top value");
+                Console.WriteLine("Type 'exit' to return to the main menu");
+
+                Console.WriteLine("Current stack (top first): " +
+                                  (stack.Count > 0 ? string.Join(", ", stack) : "(Empty)"));
+
+                Console.Write("Input: ");
+                string input = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+                switch (input)
+                {
+                    case "push":
+                        Console.Write("What do you want to put on the stack? ");
+                        string value = Console.ReadLine() ?? "";
+                        stack.Push(value);
+                        Console.WriteLine($"'{value}' was put on the stack.");
+                        break;
+
+                    case "pop":
+                        if (stack.Count > 0)
+                        {
+                            string removed = stack.Pop();
+                            Console.WriteLine($"'{removed}' was removed from the stack.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The stack is empty, nothing to pop.");
+                        }
+                        break;
+
+                    case "exit":
+                        isRunning = false;
+                        Console.Clear();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid input, please try again.");
+                        break;
+                }
+            }
         }
 
         static void CheckParanthesis()
@@ -203,9 +304,68 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
+            bool running = true;
 
+            while (running)
+            {
+                Console.WriteLine("\nEnter a string to check parentheses (type 'exit' to return):");
+                string input = Console.ReadLine() ?? "";
+
+                // Exit condition
+                if (input.ToLower() == "exit")
+                {
+                    running = false;
+                    Console.Clear();
+                    continue;
+                }
+
+                // Call validation logic
+                bool ok = IsWellFormed(input);
+
+                // Output result to user
+                if (ok)
+                    Console.WriteLine("✔ The string is well-formed.");
+                else
+                    Console.WriteLine("✘ The string is NOT well-formed.");
+            }
+            static bool IsWellFormed(string input)
+            {
+                Stack<char> stack = new Stack<char>();
+
+                foreach (char c in input)
+                {
+                    // Push opening parentheses onto stack
+                    if (c == '(' || c == '{' || c == '[')
+                    {
+                        stack.Push(c);
+                    }
+                    // For closing parentheses, verify correctness
+                    else if (c == ')' || c == '}' || c == ']')
+                    {
+                        // Stack empty → no matching opening bracket
+                        if (stack.Count == 0)
+                            return false;
+
+                        // Pop last opening parenthesis
+                        char open = stack.Pop();
+
+                        // Check if the pair matches
+                        if (!IsMatchingPair(open, c))
+                            return false;
+                    }
+                    // All other characters are ignored
+                }
+
+                // If stack is empty → all parentheses closed correctly
+                return stack.Count == 0;
+            }
+            static bool IsMatchingPair(char open, char close)
+            {
+                return (open == '(' && close == ')') ||
+                       (open == '{' && close == '}') ||
+                       (open == '[' && close == ']');
+            }
         }
-
     }
 }
 
